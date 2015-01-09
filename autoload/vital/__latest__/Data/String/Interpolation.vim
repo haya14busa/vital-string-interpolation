@@ -72,15 +72,6 @@ function! s:s(...) abort
     return call(function('s:_interpolate'), a:000)
 endfunction
 
-"" format: ${expr} / ${string({})} / ${}
-let s:_format = '\v\$\{(%(\{.{-}\}|.){-})\}'
-
-"" Return ['${expr}', 'expr', '', ''] or [] when there are no matches
-function! s:_ms(string, ...) abort
-    let start = get(a:, 1, 0)
-    return matchlist(a:string, s:_format, start)
-endfunction
-
 "" Contextual eval()
 function! s:_context_eval(expr, context) abort
     " NOTE: Old vim doesn't support extending l:
@@ -139,15 +130,6 @@ function! s:_parser._parse_first_idx_range(str, ...) abort
     endwhile
     return [] " not found
 endfunction
-
-" " NOTE: \= doesn't support recursive call. :h sub-replace-expression
-" function! s:interpolate(string, ...) abort
-"     call extend(l:, get(a:, 1, {}))
-"     return substitute(a:string, '\m\${\(.\{-}\)}', '\=eval(submatch(1))', 'g')
-" endfunction
-" echo s:interpolate('Recursive call: ${Test()}', {'Test': function('s:test')})
-" " => Recursive call: Happy new year, =eval(submatch(1))! <= invalid!
-
 
 " Restore 'cpoptions' {{{
 let &cpo = s:save_cpo
