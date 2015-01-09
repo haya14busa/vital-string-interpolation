@@ -4,7 +4,7 @@ String interpolation in Vim
 
 Vital.Data.String.Interpolation is String interpolation[1] library.
 
-**Farewell `'ugly' . 'dot' . 'string' . 'concatenation'`!**
+**Farewell `'ugly' . 'dot' . 'string' . 'concatenation'` and meets the `'beautiful ${string} interpolation'` :heartbeat:**
 
 [1]: http://en.wikipedia.org/wiki/String_interpolation
 
@@ -12,6 +12,8 @@ Installation
 ------------
 
 ### 1. Install vital.vim and vital-string-interpolation with your favorite plugin manager.
+
+vital.vim: https://github.com/vim-jp/vital.vim
 
 ```vim
 NeoBundle 'vim-jp/vital.vim'
