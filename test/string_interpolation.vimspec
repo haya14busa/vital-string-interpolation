@@ -7,18 +7,18 @@ Describe arrays
 
     After all
         unlet g:I
+        delfunction Func
     End
 
     Context .interpolate()
         It evaluate lots of patterns
-            function! s:test() abort
+            function! Func() abort
                 let year = 2015
                 return g:I.interpolate('Happy new year, ${year}!', l:)
             endfunction
-            let r = s:test()
-            let Test = function('s:test')
+            let r = Func()
             Assert Equals(r, 'Happy new year, 2015!')
-            Assert Equals(g:I.interpolate('It handles Function as well: ${Test()}', {'Test': Test})
+            Assert Equals(g:I.interpolate('It handles Function as well: ${Func()}')
             \  , 'It handles Function as well: Happy new year, 2015!')
             Assert Equals(g:I.interpolate('Hi, my name is ${name}.', {'name': 'haya14busa'})
             \  , 'Hi, my name is haya14busa.')
