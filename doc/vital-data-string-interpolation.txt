@@ -30,6 +30,7 @@ License : MIT license {{{
 CONTENTS			*Vital.Data.String.Interpolation-contents*
 
 INTRODUCTION		|Vital.Data.String.Interpolation-introduction|
+INSTALLATION		|Vital.Data.String.Interpolation-installation|
 INTERFACE		|Vital.Data.String.Interpolation-interface|
   Functions		  |Vital.Data.String.Interpolation-functions|
 
@@ -46,6 +47,30 @@ INTRODUCTION			*Vital.Data.String.Interpolation-introduction*
 	let s:name = 'haya14busa'
 	echo s:I.s('1 + 1 = ${1 + 1}', s:)
 	" => 1 + 1 = 2
+
+==============================================================================
+INSTALLATION			*Vital.Data.String.Interpolation-installation*
+
+	1. Install |vital.vim| and |vital-string-interpolation| with your
+	favorite plugin manager.
+>
+		NeoBundle 'vim-jp/vital.vim'
+		NeoBundle 'haya14busa/vital-string-interpolation'
+
+		Plugin 'vim-jp/vital.vim'
+		Plugin 'haya14busa/vital-string-interpolation'
+
+		Plug 'vim-jp/vital.vim'
+		Plug 'haya14busa/vital-string-interpolation'
+<
+	2. Embed vital-string-interpolation into your plugin with |:Vitalize|
+	(assume current directory is the root of your plugin repository).
+	See |:Vitalize| for more information. >
+	    :Vitalize . --name={plugin_name} Data.String.Interpolation
+<
+	3. You can update vital-string-interpolation with |:Vitalize|. >
+	    :Vitalize .
+<
 
 ==============================================================================
 INTERFACE			*Vital.Data.String.Interpolation-interface*
@@ -83,6 +108,12 @@ format({str} [,{context}])	*Vital.Data.String.Interpolation.s()*
 	endfunction
 	echo s:IIFE()
 	" => Hi, haya14busa!
+
+==============================================================================
+CHANGELOG			 *Vital.Data.String.Interpolation-changelog*
+
+0.9.0	2015-01-10
+	- Init.
 
 ==============================================================================
 vim:tw=78:ts=8:ft=help:norl:noet:fen:fdl=0:fdm=marker:

@@ -4,32 +4,35 @@ String interpolation in Vim
 
 Vital.Data.String.Interpolation is String interpolation[1] library.
 
+**Farewell `'ugly' . 'dot' . 'string' . 'concatenation'`!**
+
 [1]: http://en.wikipedia.org/wiki/String_interpolation
 
 Installation
 ------------
 
-### 1. Install vital.vim and vital-string-interpolation.vim with your favorite plugin manager.
+### 1. Install vital.vim and vital-string-interpolation with your favorite plugin manager.
 
 ```vim
 NeoBundle 'vim-jp/vital.vim'
-NeoBundle 'haya14busa/vital-string-interpolation.vim'
+NeoBundle 'haya14busa/vital-string-interpolation'
 
 Plugin 'vim-jp/vital.vim'
-Plugin 'haya14busa/vital-string-interpolation.vim'
+Plugin 'haya14busa/vital-string-interpolation'
 
 Plug 'vim-jp/vital.vim'
-Plug 'haya14busa/vital-string-interpolation.vim'
+Plug 'haya14busa/vital-string-interpolation'
 ```
 
-### 2. Embed vital-string-interpolation.vim into your plugin with :Vitalize (assume current directory is the root of your plugin repository).
+### 2. Embed vital-string-interpolation into your plugin with :Vitalize (assume current directory is the root of your plugin repository).
 See `:Vitalize` for more information.
 
 ```vim
-:Vitalize . --name={plugin_name} vital-string-interpolation
+:Vitalize . --name={plugin_name} Data.String.Interpolation
 ```
 
-### 3. You can update vital-string-interpolation.vim with :Vitalize.
+### 3. You can update vital-string-interpolation with :Vitalize.
+
 ```vim
 :Vitalize .
 ```
@@ -62,3 +65,11 @@ endfunction
 echo s:IIFE()
 " => Hi, haya14busa!
 ```
+
+Author
+------
+haya14busa (https://github.com/haya14busa)
+
+Document
+--------
+[:h vital-data-string-interpolation.txt](doc/vital-data-string-interpolation.txt)
