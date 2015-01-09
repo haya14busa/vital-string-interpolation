@@ -83,7 +83,11 @@ endfunction
 
 "" Contextual eval()
 function! s:_context_eval(expr, context) abort
-    call extend(l:, a:context)
+    " NOTE: Old vim doesn't support extending l:
+    " call extend(l:, a:context)
+    for s:key in keys(a:context)
+        let {s:key} = a:context[s:key]
+    endfor
     sandbox return eval(a:expr)
 endfunction
 
