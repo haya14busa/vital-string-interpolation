@@ -1,10 +1,10 @@
 String interpolation in Vim
 ===========================
-[![Build Status](https://travis-ci.org/haya14busa/vital-string-interpolation.svg?branch=master)](https://travis-ci.org/haya14busa/vital-string-interpolation)
-[![](https://img.shields.io/github/release/haya14busa/vital-string-interpolation.svg)](https://github.com/haya14busa/vital-string-interpolation/releases)
-[![](https://img.shields.io/github/issues/haya14busa/vital-string-interpolation.svg)](https://github.com/haya14busa/vital-string-interpolation/issues)
-[![](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![](https://img.shields.io/badge/doc-%3Ah%20vital--data--string--interpolation.txt-red.svg)](doc/vital-data-string-interpolation.txt)
+[![Build Status](https://img.shields.io/travis/haya14busa/vital-string-interpolation/master.svg?style=flat-square)](https://travis-ci.org/haya14busa/vital-string-interpolation)
+[![](https://img.shields.io/github/release/haya14busa/vital-string-interpolation.svg?style=flat-square)](https://github.com/haya14busa/vital-string-interpolation/releases)
+[![](https://img.shields.io/github/issues/haya14busa/vital-string-interpolation.svg?style=flat-square)](https://github.com/haya14busa/vital-string-interpolation/issues)
+[![](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
+[![](https://img.shields.io/badge/doc-%3Ah%20vital--data--string--interpolation.txt-red.svg?style=flat-square)](doc/vital-data-string-interpolation.txt)
 
 Vital.Data.String.Interpolation is String interpolation[1] library.
 
