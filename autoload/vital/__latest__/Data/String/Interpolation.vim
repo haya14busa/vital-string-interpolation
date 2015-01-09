@@ -52,14 +52,13 @@ set cpo&vim
 function! s:_interpolate(string, ...) abort
     let context = get(a:, 1, {})
     let str = a:string
-    let ms = s:_ms(str)
-    let mstart = 0 " match start
-    while !empty(ms)
-        let value = s:_context_eval(ms[1], context)
-        let _mstart = match(str, s:_format, mstart) + len(value)
-        let str = substitute(str, printf('\%%>%dc%s', mstart, ms[0]), value, '')
-        let mstart = _mstart
-        let ms = s:_ms(str, mstart)
+    let ps = s:_parser._parse_first_idx_range(str)
+    while !empty(ps)
+        let [s, e] = ps
+        let expr = str[(s + len(s:_parser._ps)):(e - len(s:_parser._pend))]
+        let v = s:_context_eval(expr, context)
+        let str = (s > 0 ? str[0:(s-1)] : '') . v . str[(e+1):]
+        let ps = s:_parser._parse_first_idx_range(str, s + len(v))
     endwhile
     return str
 endfunction
@@ -86,6 +85,55 @@ endfunction
 function! s:_context_eval(expr, context) abort
     call extend(l:, a:context)
     sandbox return eval(a:expr)
+endfunction
+
+
+" Pair Parser:
+let s:_parser = {}
+let s:_parser._ppr = '$' " pattern prefix
+let s:_parser._psb = '{' " pattern start bracket
+let s:_parser._ps = s:_parser._ppr . s:_parser._psb " pattern start
+let s:_parser._peb = '}' " pattern end bracket
+let s:_parser._psu = '' " pattern suffix
+let s:_parser._pend = s:_parser._peb . s:_parser._psu " pattern end
+
+" return [start_index, end_index] or [] if not found
+function! s:_parser._parse_first_idx_range(str, ...) abort
+    let i = get(a:, 1, 0)
+    let level = 0
+    let str_state = ''
+    let str_DOUBLE = '"'
+    let str_SINGLE = "'"
+    while i < len(a:str)
+        if a:str[(i):(i + len(self._ps)-1)] is# self._ps
+            let j = i + len(self._ps)
+            while j < len(a:str)
+                if a:str[j] is# str_DOUBLE && str_state is# str_DOUBLE
+                    let str_state = ''
+                elseif a:str[j] is# str_DOUBLE && str_state isnot# str_SINGLE
+                    let str_state = str_DOUBLE
+                elseif a:str[j] is# str_SINGLE && str_state is# str_SINGLE
+                    let str_state = ''
+                elseif a:str[j] is# str_SINGLE && str_state isnot# str_DOUBLE
+                    let str_state = str_SINGLE
+                elseif str_state isnot# ''
+                    " pass
+                elseif a:str[(j):(j + len(self._psb)-1)] is# self._psb
+                    let level += 1
+                elseif a:str[(j):(j + len(self._pend)-1)] is# self._pend
+                    let level -= 1
+                    if level < 0
+                        return [i, j]
+                    endif
+                elseif a:str[(j):(j + len(self._psb)-1)] is# self._psb
+                    let level -= 1
+                endif
+                let j += 1
+            endwhile
+        endif
+        let i += 1
+    endwhile
+    return [] " not found
 endfunction
 
 " " NOTE: \= doesn't support recursive call. :h sub-replace-expression
