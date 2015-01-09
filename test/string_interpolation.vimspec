@@ -1,0 +1,48 @@
+Describe arrays
+
+    Before all
+        let s:V = vital#of('vital')
+        let g:I = s:V.import('Data.String.Interpolation')
+    End
+
+    After all
+        unlet g:I
+    End
+
+    Context .interpolate()
+        It evaluate lots of patterns
+            function! s:test() abort
+                let year = 2015
+                return g:I.interpolate('Happy new year, ${year}!', l:)
+            endfunction
+            let r = s:test()
+            let Test = function('s:test')
+            Assert Equals(r, 'Happy new year, 2015!')
+            Assert Equals(g:I.interpolate('It handles Function as well: ${Test()}', {'Test': Test})
+            \  , 'It handles Function as well: Happy new year, 2015!')
+            Assert Equals(g:I.interpolate('Hi, my name is ${name}.', {'name': 'haya14busa'})
+            \  , 'Hi, my name is haya14busa.')
+            Assert Equals(g:I.interpolate('1 + 1 = ${1 + 1}'), '1 + 1 = 2')
+            Assert Equals(g:I.interpolate('${repeat} and ${repeat}', {'repeat': 'again'}), 'again and again')
+            Assert Equals(g:I.interpolate('${0}'), '0')
+            Assert Equals(g:I.interpolate('${string({})}'), '{}')
+            Assert Equals(g:I.interpolate('${string({"a": "hello"})}'), "{'a': 'hello'}")
+            let x = '1 + 2 + 3 + 4 + 5'
+            Assert Equals(g:I.interpolate('${x} = ${eval(x)} ${"${x}"}', l:)
+            \  , '1 + 2 + 3 + 4 + 5 = 15 ${x}')
+            let y = '${y}'
+            Assert Equals(g:I.interpolate('${y}', l:), '${y}')
+            Assert Equals(g:I.interpolate('${repeat}${repeat}', {'repeat': 'again'}), 'againagain')
+            Assert Equals(g:I.interpolate('${1}${2}${3}'), '123')
+            Assert Equals(g:I.interpolate('${x}${y}', {'x': '${y}', 'y': '${x}'}), '${y}${x}')
+            Assert Equals(g:I.interpolate('hi${string({"a": {}})}foo'), "hi{'a': {}}foo")
+            Assert Equals(g:I.interpolate('hi${string({"a": {"b": {}}})}foo'), "hi{'a': {'b': {}}}foo")
+            Assert Equals(g:I.s('${1 + 1 . "}{''"}'), "2}{'")
+            Assert Equals(g:I.s("${'}'}"), '}')
+            Assert Equals(g:I.s("${'{'}"), '{')
+            Assert Equals(g:I.s("${'{}}}{{}{}'}"), '{}}}{{}{}')
+            Assert Equals(g:I.s("${'hoge\"{'}"), 'hoge"{')
+        End
+    End
+
+End
