@@ -10,12 +10,13 @@ Describe arrays
         delfunction Func
     End
 
+    function! Func() abort
+        let year = 2015
+        return g:I.interpolate('Happy new year, ${year}!', l:)
+    endfunction
+
     Context .interpolate()
         It evaluate lots of patterns
-            function! Func() abort
-                let year = 2015
-                return g:I.interpolate('Happy new year, ${year}!', l:)
-            endfunction
             let r = Func()
             Assert Equals(r, 'Happy new year, 2015!')
             Assert Equals(g:I.interpolate('It handles Function as well: ${Func()}')
@@ -37,11 +38,20 @@ Describe arrays
             Assert Equals(g:I.interpolate('${x}${y}', {'x': '${y}', 'y': '${x}'}), '${y}${x}')
             Assert Equals(g:I.interpolate('hi${string({"a": {}})}foo'), "hi{'a': {}}foo")
             Assert Equals(g:I.interpolate('hi${string({"a": {"b": {}}})}foo'), "hi{'a': {'b': {}}}foo")
-            Assert Equals(g:I.s('${1 + 1 . "}{''"}'), "2}{'")
+            " line-break for syntax
+            Assert Equals(g:I.s('${1 + 1 . "}{''"}'),
+            \"2}{'")
             Assert Equals(g:I.s("${'}'}"), '}')
             Assert Equals(g:I.s("${'{'}"), '{')
             Assert Equals(g:I.s("${'{}}}{{}{}'}"), '{}}}{{}{}')
             Assert Equals(g:I.s("${'hoge\"{'}"), 'hoge"{')
+        End
+        It handle reassignment different type
+            Assert Equals(g:I.s('${a} ${b}', {'a': 1, 'b': '1'}), '1 1')
+            Throws /Vim(let):E806:/ g:I.s('${a} ${b}', {'a': 1, 'b': 1.0E-6})
+        End
+        It doesn't raise Vim(let):E704: Funcref variable name must start with a capital
+            Throws /Vim(let):E729:/ g:I.s('${Funcref}', {'Funcref': function('Func')})
         End
     End
 
