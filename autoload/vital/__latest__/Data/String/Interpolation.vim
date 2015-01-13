@@ -56,9 +56,10 @@ function! s:_interpolate(string, ...) abort
     while !empty(ps)
         let [s, e] = ps
         let expr = str[(s + len(s:_parser._ps)):(e - len(s:_parser._pend))]
-        let v = s:_context_eval(expr, context)
-        let str = (s > 0 ? str[0:(s-1)] : '') . v . str[(e+1):]
-        let ps = s:_parser._parse_first_idx_range(str, s + len(v))
+        let V = s:_context_eval(expr, context)
+        let str = (s > 0 ? str[0:(s-1)] : '') . V . str[(e+1):]
+        let ps = s:_parser._parse_first_idx_range(str, s + len(V))
+        unlet V
     endwhile
     return str
 endfunction
