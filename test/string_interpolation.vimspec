@@ -8,11 +8,16 @@ Describe arrays
     After all
         unlet g:I
         delfunction Func
+        delfunction FuncA
     End
 
     function! Func() abort
         let year = 2015
         return g:I.interpolate('Happy new year, ${year}!', l:)
+    endfunction
+
+    function! FuncA(x, y, ...) abort
+        return g:I.interpolate('x is ${x}. y is ${y}', a:)
     endfunction
 
     Context .interpolate()
@@ -52,6 +57,9 @@ Describe arrays
         End
         It doesn't raise Vim(let):E704: Funcref variable name must start with a capital
             Throws /Vim(let):E729:/ g:I.s('${Funcref}', {'Funcref': function('Func')})
+        End
+        It can accept a:
+            Assert Equals(FuncA('X', 'Y'), 'x is X. y is Y')
         End
     End
 
