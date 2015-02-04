@@ -77,7 +77,7 @@ endfunction
 function! s:_context_eval(expr, context) abort
     " NOTE: Old vim doesn't support extending l:
     " call extend(l:, a:context)
-    for s:key in keys(a:context)
+    for s:key in filter(keys(a:context), "v:val !~# '^\\d*$'")
         let {s:key} = a:context[s:key]
     endfor
     sandbox return eval(a:expr)
